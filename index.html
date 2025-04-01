@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tid for avstander</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input, button {
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 10px;
+            width: 85%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            font-size: 20px;
+            margin: 15px 0;
+        }
+        .preset-box {
+            padding: 15px;
+            background-color: #eef2f7;
+            border-radius: 10px;
+        }
+        .preset-box h3 {
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+        .preset-box p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Kalkulator for tid</h2>
+        <p>Fyll inn hastighet i km/t:</p>
+        <input type="number" id="speedInput" placeholder="Skriv inn hastighet (km/t)">
+        <button onclick="calculateTime()">Beregn tid</button>
+
+        <div class="result">
+            <p><strong>85 meter:</strong> <span id="time85">-</span> sekunder</p>
+            <p><strong>110 meter:</strong> <span id="time110">-</span> sekunder</p>
+            <p><strong>170 meter:</strong> <span id="time170">-</span> sekunder</p>
+            <p><strong>220 meter:</strong> <span id="time220">-</span> sekunder</p>
+        </div>
+    </div>
+
+    <div class="container preset-box">
+        <h3>Faste tider for 85 meter</h3>
+        <p><strong>10 km/t:</strong> <span id="preset85_10"></span> sekunder</p>
+        <p><strong>20 km/t:</strong> <span id="preset85_20"></span> sekunder</p>
+        <p><strong>30 km/t:</strong> <span id="preset85_30"></span> sekunder</p>
+        <p><strong>40 km/t:</strong> <span id="preset85_40"></span> sekunder</p>
+    </div>
+
+    <div class="container preset-box">
+        <h3>Faste tider for 110 meter</h3>
+        <p><strong>10 km/t:</strong> <span id="preset110_10"></span> sekunder</p>
+        <p><strong>20 km/t:</strong> <span id="preset110_20"></span> sekunder</p>
+        <p><strong>30 km/t:</strong> <span id="preset110_30"></span> sekunder</p>
+        <p><strong>40 km/t:</strong> <span id="preset110_40"></span> sekunder</p>
+    </div>
+
+    <div class="container preset-box">
+        <h3>Faste tider for 170 meter</h3>
+        <p><strong>10 km/t:</strong> <span id="preset170_10"></span> sekunder</p>
+        <p><strong>20 km/t:</strong> <span id="preset170_20"></span> sekunder</p>
+        <p><strong>30 km/t:</strong> <span id="preset170_30"></span> sekunder</p>
+        <p><strong>40 km/t:</strong> <span id="preset170_40"></span> sekunder</p>
+    </div>
+
+    <div class="container preset-box">
+        <h3>Faste tider for 220 meter</h3>
+        <p><strong>10 km/t:</strong> <span id="preset220_10"></span> sekunder</p>
+        <p><strong>20 km/t:</strong> <span id="preset220_20"></span> sekunder</p>
+        <p><strong>30 km/t:</strong> <span id="preset220_30"></span> sekunder</p>
+        <p><strong>40 km/t:</strong> <span id="preset220_40"></span> sekunder</p>
+    </div>
+
+    <script>
+        function calculateTime() {
+            let speedKmH = parseFloat(document.getElementById("speedInput").value);
+            if (isNaN(speedKmH) || speedKmH <= 0) {
+                alert("Vennligst skriv inn en gyldig hastighet.");
+                return;
+            }
+
+            let speedMs = speedKmH * 1000 / 3600; // Konverter km/t til m/s
+
+            document.getElementById("time85").textContent = (85 / speedMs).toFixed(2);
+            document.getElementById("time110").textContent = (110 / speedMs).toFixed(2);
+            document.getElementById("time170").textContent = (170 / speedMs).toFixed(2);
+            document.getElementById("time220").textContent = (220 / speedMs).toFixed(2);
+        }
+
+        function presetTimes() {
+            let presetSpeeds = [10, 20, 30, 40];
+            let distances = [85, 110, 170, 220];
+
+            presetSpeeds.forEach(speed => {
+                let speedMs = speed * 1000 / 3600;
+                distances.forEach(distance => {
+                    document.getElementById(`preset${distance}_${speed}`).textContent = Math.ceil(distance / speedMs);
+                });
+            });
+        }
+
+        presetTimes(); // Beregn forhåndsutfylte tider ved lasting av siden
+    </script>
+
+</body>
+</html>
