@@ -105,6 +105,21 @@
         <p><strong>40 km/t:</strong> <span id="preset220_40"></span> sekunder</p>
     </div>
 
+    <!-- Ny kalkulator -->
+    <div class="container">
+        <h2>Kalkulator for hastighet</h2>
+        <p>Fyll inn avstand i kilometer:</p>
+        <input type="number" id="distanceInput" placeholder="Avstand (km)">
+        <p>Fyll inn ønsket tid i minutter:</p>
+        <input type="number" id="timeInput" placeholder="Tid (min)">
+        <button onclick="calculateSpeed()">Beregn hastighet</button>
+
+        <div class="result">
+            <p><strong>Nødvendig hastighet:</strong> <span id="requiredSpeed">-</span> km/t</p>
+            <p><strong>Tidsparring ved +5 km/t:</strong> <span id="timeSaved">-</span> minutter</p>
+        </div>
+    </div>
+
     <script>
         function calculateTime() {
             let speedKmH = parseFloat(document.getElementById("speedInput").value);
@@ -131,6 +146,27 @@
                     document.getElementById(`preset${distance}_${speed}`).textContent = Math.ceil(distance / speedMs);
                 });
             });
+        }
+
+        function calculateSpeed() {
+            let distanceKm = parseFloat(document.getElementById("distanceInput").value);
+            let timeMin = parseFloat(document.getElementById("timeInput").value);
+
+            if (isNaN(distanceKm) || isNaN(timeMin) || distanceKm <= 0 || timeMin <= 0) {
+                alert("Vennligst skriv inn gyldige verdier for avstand og tid.");
+                return;
+            }
+
+            // Beregn nødvendig hastighet i km/t
+            let requiredSpeed = (distanceKm / (timeMin / 60)).toFixed(2);
+            document.getElementById("requiredSpeed").textContent = requiredSpeed;
+
+            // Beregn tidsparring ved +5 km/t
+            let fasterSpeed = parseFloat(requiredSpeed) + 5;
+            let originalTime = (distanceKm / (parseFloat(requiredSpeed) / 60));
+            let fasterTime = (distanceKm / (fasterSpeed / 60));
+            let timeSaved = (originalTime - fasterTime).toFixed(2);
+            document.getElementById("timeSaved").textContent = timeSaved;
         }
 
         presetTimes(); // Beregn forhåndsutfylte tider ved lasting av siden
